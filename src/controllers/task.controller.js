@@ -82,29 +82,80 @@ const taskDone = asyncHandler(async(req,res)=>{
     }
 })
 
-const showAllTask = asyncHandler(async(req,res)=>{
-    const userId = req.user._id
+// const showAllTask = asyncHandler(async(req,res)=>{
+//     const userId = req.user._id
 
-    const tasks = await Task.find(
-        //completed:true or false to display task as per status
-        {createdBy:userId,completed:false}, 
+//     const tasks = await Task.find(
+//         //completed:true or false to display task as per status
+//         {createdBy:userId,completed:false}, 
+//     )
+
+//     if(tasks.length > 0){
+//         return res
+//         .status(200)
+//         .json(
+//             new ApiResponse(200,tasks,"All tasks view")
+//         )
+//     }else{
+//         throw new ApiError(404,"No tasks found for the user") 
+//     }
+// })
+
+const showUserTask = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    const pipeline = [
+        {
+            $match: {
+                createdBy: new mongoose.Types.ObjectId(userId),
+                completed: false
+            }
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'createdBy',
+                foreignField: '_id',
+                as: 'user'
+            }
+        },
+        {
+            $unwind: '$user'
+        },
+        {
+            $project: {
+                'user.username': 1,
+                'user.avatar': 1,
+                content: 1,
+                completed: 1
+            }
+        }
+    ];
+
+    const showData = await Task.aggregate(pipeline);
+
+   if(showData.length > 0){
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,showData,"User data fetch successfully")
     )
+   }else{
+    // throw new ApiError(404,"No data found")
+    return res.status(404).json(
+        new ApiResponse(404, null, "No user data found")
+    );
+   }
+   
+});
 
-    if(tasks.length > 0){
-        return res
-        .status(200)
-        .json(
-            new ApiResponse(200,tasks,"All tasks view")
-        )
-    }else{
-        throw new ApiError(404,"No tasks found for the user") 
-    }
-})
+
 
 export{
     userTask,
     deleteTask,
     deleteAll,
     taskDone,
-    showAllTask
+    // showAllTask
+    showUserTask
 }
