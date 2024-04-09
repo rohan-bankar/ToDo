@@ -65,6 +65,27 @@ function Home() {
     }
   }
 
+  const handelTaskCompleted = async(taskId)=>{
+    try {
+      const accessToken = getAccessToken()
+      const response = await axios.patch(`http://localhost:3000/api/v1/tasks/c/${taskId}`,{},{
+        headers:{
+          Authorization:`Bearer ${accessToken}`
+        },
+        withCredentials: true
+      })
+      const updatedTask = tasks.map(task =>{
+        if(task._id === taskId){
+          return response.data.data
+        }
+        return task
+      })
+      setTasks(updatedTask)
+    } catch (error) {
+      console.log('Error marking task as completed',error);
+    }
+  }
+
   const handleLogout = (e) =>{
     e.preventDefault()
     const accessToken = getAccessToken();
@@ -104,6 +125,7 @@ function Home() {
       {tasks.map((task)=>(
         <div key={task._id}>
           <span>{task.content}</span>
+          <button onClick={()=>handelTaskCompleted(task._id)}>Completed</button>
           <button onClick={()=>handelDeleteTask(task._id)}>Delete</button>
         </div>
       ))}
