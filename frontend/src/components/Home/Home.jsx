@@ -11,20 +11,24 @@ function Home() {
   const getAccessToken = ()=>{
     return localStorage.getItem('accessToken');
   }
-  // useEffect(()=>{
-  //   fetchTasks();
-  // },[])
+  useEffect(()=>{
+    fetchTasks();
+  },[])
 
-  // const fetchTasks = async ()=>{
-  //   try {
-  //     const response = await axios.get('http://localhost:3000/api/v1/tasks/all-task',{
-  //       withCredentials:true
-  //     })
-  //     setTasks(response.data.data)
-  //   } catch (error) {
-  //     console.log('Error fetching tasks:', error);
-  //   }
-  // }
+  const fetchTasks = async ()=>{
+    try {
+      const accessToken = getAccessToken()
+      const response = await axios.get('http://localhost:3000/api/v1/tasks/all-task',{
+        headers:{
+          Authorization:`Bearer ${accessToken}`
+        },
+        withCredentials:true
+      })
+      setTasks(response.data.data)
+    } catch (error) {
+      console.log('Error fetching tasks:', error);
+    }
+  }
 
   const handleAddTask = async (e)=>{
     e.preventDefault();
@@ -80,12 +84,12 @@ function Home() {
     <button onClick={handleLogout} >Logout</button><br />
     <button onClick={()=>navigate('/password')}>Change Password</button>
     </form>
-    {/* <div>
+    <div>
       <h2>Task List</h2>
       {tasks.map((task)=>(
         <li key={task._id}>{task.content}</li>
       ))}
-    </div> */}
+    </div>
     </>
   )
 }
