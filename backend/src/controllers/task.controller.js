@@ -28,16 +28,19 @@ const userTask = asyncHandler(async(req,res)=>{
 
 const deleteTask =asyncHandler(async(req,res)=>{
     const userId = req.user._id
-    const oldTask = await Task.findOneAndDelete(
-        {createdBy:userId},
-        {sort:{createdAt:1}}
-    )
+    const taskId = req.params.taskId
+    const oldTask = await Task.findOneAndDelete({
+        // {createdBy:userId},
+        // {sort:{createdAt:1}}
+        _id: taskId,
+        createdBy: userId
+})
 
     if(oldTask){
         return res
         .status(200)
         .json(
-            new ApiResponse(200,oldTask,"Old task delete successfully")
+            new ApiResponse(200,oldTask,"Task delete successfully")
         )
     }else{
         throw new ApiError(404,"No task found to delete")

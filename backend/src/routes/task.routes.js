@@ -16,7 +16,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router()
 // router.use(verifyJWT); // apply verifyJWT middleware to all routes in this file
 router.route("/user-task").post(verifyJWT,userTask)
-router.route("/delete-task").delete(verifyJWT,deleteTask)
+router.route("/delete-task/:taskId").delete(verifyJWT,deleteTask)
 router.route("/delete-completed").delete(verifyJWT,deleteCompleted)
 router.route("/c/:taskId").patch(verifyJWT,taskDone)
 router.route("/incomplete-task").get(verifyJWT,showIncompleteTask)
