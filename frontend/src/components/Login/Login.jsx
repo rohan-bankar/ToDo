@@ -67,7 +67,7 @@ function Login() {
                 <input 
                     type="text"
                     placeholder=' Enter Email'
-                    name=''
+                    name='email'
                     className='border border-black w-full my-2 h-9'
                     onChange={(e)=> setEmail(e.target.value)}
                 />
@@ -80,7 +80,7 @@ function Login() {
                 <input 
                     type="text"
                     placeholder=' Enter Password'
-                    name=''
+                    name='password'
                     className='border border-black w-full my-2 h-9'
                     onChange={(e)=> setPassword(e.target.value)}
                 />
