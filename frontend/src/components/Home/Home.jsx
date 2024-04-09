@@ -50,6 +50,21 @@ function Home() {
     }
   }
 
+  const handelDeleteTask = async (taskId)=>{
+    try {
+      const accessToken = getAccessToken();
+      const response = await axios.delete(`http://localhost:3000/api/v1/tasks/delete-task/${taskId}`,{
+        headers:{
+          Authorization:`Bearer ${accessToken}`
+        }
+      })
+      setTasks(tasks.filter(task => task._id !== taskId))
+      console.log('Task deleted successfully:',response.data.message);
+    } catch (error) {
+      console.log('Error deleting task',error);
+    }
+  }
+
   const handleLogout = (e) =>{
     e.preventDefault()
     const accessToken = getAccessToken();
@@ -87,7 +102,10 @@ function Home() {
     <div>
       <h2>Task List</h2>
       {tasks.map((task)=>(
-        <li key={task._id}>{task.content}</li>
+        <div key={task._id}>
+          <span>{task.content}</span>
+          <button onClick={()=>handelDeleteTask(task._id)}>Delete</button>
+        </div>
       ))}
     </div>
     </>
