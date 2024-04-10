@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { showIncompleteTask } from '../../../../backend/src/controllers/task.controller'
+
 
 
 function Home() {
@@ -82,6 +82,7 @@ function Home() {
         return task
       })
       setTasks(updatedTask)
+      // setCompletedTaskId(taskId)
     } catch (error) {
       console.log('Error marking task as completed',error);
     }
@@ -167,9 +168,15 @@ function Home() {
       <h2>Task List</h2>
       {tasks.map((task)=>(
         <div key={task._id}>
-          <span>{task.content}</span>
-          <button onClick={()=>handelTaskCompleted(task._id)}>Completed</button>
-          <button onClick={()=>handelDeleteTask(task._id)}><img src="./public/icon-cross.svg" alt="" /></button>
+          <span 
+            style={{
+              textDecoration: task.completed ? "line-through" : "none",
+              cursor: "pointer"
+            }}
+            onClick={() => handelTaskCompleted(task._id)}
+            >{task.content}
+          </span>
+          <button onClick={()=>handelDeleteTask(task._id)}><img src="/public/icon-cross.svg" alt="" /></button>
         </div>
       ))}
     </div>
