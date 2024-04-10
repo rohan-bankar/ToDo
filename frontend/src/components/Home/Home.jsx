@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { showIncompleteTask } from '../../../../backend/src/controllers/task.controller'
 
 
 function Home() {
@@ -86,6 +87,50 @@ function Home() {
     }
   }
 
+  const handleActiveTask = async()=>{
+    try {
+      const accessToken = getAccessToken()
+      const response = await axios.get('http://localhost:3000/api/v1/tasks/incomplete-task',{
+        headers:{
+          Authorization:`Bearer ${accessToken}`
+        },
+        withCredentials:true
+      })
+      setTasks(response.data.data)
+    } catch (error) {
+      console.log('Error fetching incomplete tasks:',error);
+    }
+  }
+
+  const handleCompletedTask = async()=>{
+    try {
+      const accessToken = getAccessToken()
+      const response = await axios.get('http://localhost:3000/api/v1/tasks/complete-task',{
+        headers:{
+          Authorization:`Bearer ${accessToken}`
+        },
+        withCredentials:true
+      })
+      setTasks(response.data.data)
+    } catch (error) {
+      console.log('Error fetching completed tasks:',error);
+    }
+  }
+
+  const handleDeleteCompleted = async()=>{
+    try {
+      const accessToken = getAccessToken();
+      await axios.delete('http://localhost:3000/api/v1/tasks/delete-completed',{
+        headers:{
+          Authorization:`Bearer ${accessToken}`
+        },
+        withCredentials:true
+      })
+      fetchTasks()
+    } catch (error) {
+      console.log('Error deleting completed tasks:',error);
+    }
+  }  
   const handleLogout = (e) =>{
     e.preventDefault()
     const accessToken = getAccessToken();
@@ -117,8 +162,6 @@ function Home() {
     onChange={(e)=>setTaskContent(e.target.value)}
     />
     <button type='submit'>Add</button><br />
-    <button onClick={handleLogout} >Logout</button><br />
-    <button onClick={()=>navigate('/password')}>Change Password</button>
     </form>
     <div>
       <h2>Task List</h2>
@@ -126,10 +169,16 @@ function Home() {
         <div key={task._id}>
           <span>{task.content}</span>
           <button onClick={()=>handelTaskCompleted(task._id)}>Completed</button>
-          <button onClick={()=>handelDeleteTask(task._id)}>Delete</button>
+          <button onClick={()=>handelDeleteTask(task._id)}><img src="./public/icon-cross.svg" alt="" /></button>
         </div>
       ))}
     </div>
+    <button onClick={handleLogout} >Logout</button><br />
+    <button onClick={()=>navigate('/password')}>Change Password</button><br />
+    <button onClick={fetchTasks}>All</button><br />
+    <button onClick={handleActiveTask}>Active</button><br />
+    <button onClick={handleCompletedTask}>Completed</button><br />
+    <button onClick={handleDeleteCompleted}>Clear Completed</button>
     </>
   )
 }
