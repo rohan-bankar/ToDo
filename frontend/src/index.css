@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    background-color:hsl(235, 21%, 11%);
+    background-image: url('/desktop-dark.jpg');
+    background-repeat: no-repeat;
+}

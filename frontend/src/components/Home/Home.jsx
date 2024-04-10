@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-
-
 function Home() {
   const [taskContent,setTaskContent] = useState('')
   const [tasks,setTasks] = useState([])
+  // const [taskCount,setTaskCount] = useState()
   const navigate = useNavigate()
 
   const getAccessToken = ()=>{
@@ -26,6 +25,8 @@ function Home() {
         withCredentials:true
       })
       setTasks(response.data.data)
+      // console.log(response);
+      // setTaskCount(response.data.message)
     } catch (error) {
       console.log('Error fetching tasks:', error);
     }
@@ -152,41 +153,58 @@ function Home() {
     })
   }
 
-
   return (
-    <>
-    <form onSubmit={handleAddTask}>
-    <h1>Home page</h1>
-    <input className='border border-black' 
-    type="text"
-    value={taskContent}
-    onChange={(e)=>setTaskContent(e.target.value)}
-    />
-    <button type='submit'>Add</button><br />
-    </form>
+    // <div style={{backgroundImage:"url(/icon-cross.svg)"}}>
     <div>
-      <h2>Task List</h2>
-      {tasks.map((task)=>(
-        <div key={task._id}>
-          <span 
-            style={{
-              textDecoration: task.completed ? "line-through" : "none",
-              cursor: "pointer"
-            }}
-            onClick={() => handelTaskCompleted(task._id)}
-            >{task.content}
-          </span>
-          <button onClick={()=>handelDeleteTask(task._id)}><img src="/public/icon-cross.svg" alt="" /></button>
+      <div className='w-1/2 my-20 mx-auto'>
+        <div className='my-10 relative'>
+          <h1 className='text-4xl font-bold text-white'>T O D O</h1>
+          <img className='absolute right-8 top-2' src="/icon-sun.svg" alt="" />
+          <img className='absolute right-8 top-2 hidden' src="/icon-moon.svg" alt="" />
         </div>
-      ))}
+        <form onSubmit={handleAddTask}>
+          <div className='flex'>
+        <input className='w-10/12 h-14 text-2xl mr-3 text-white rounded' 
+        style={{backgroundColor:'hsl(235, 24%, 19%)'}}
+        type="text"
+        value={taskContent}
+        onChange={(e)=>setTaskContent(e.target.value)}
+        />
+        <button className='bg-white w-20 rounded-lg font-bold' type='submit'>Add</button><br />
+          </div>
+        </form>
+        <div style={{backgroundColor:'hsl(235, 24%, 19%)'}} className='rounded w-10/12 py-1 mt-5'>
+          <div>
+            {tasks.map((task)=>(
+              <div style={{backgroundColor:'hsl(235, 24%, 19%)'}} className='w-full h-12 text-2xl relative border-b border-black text-white' key={task._id}>
+                <span className='ml-2'
+                  style={{ 
+                    textDecoration: task.completed ? "line-through" : "none",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => handelTaskCompleted(task._id)}
+                  >{ task.content}
+                </span>
+                <button className='absolute right-2 top-2' onClick={()=>handelDeleteTask(task._id)}><img src="/icon-cross.svg" alt="" /></button>
+              </div>
+            ))}
+          </div>
+          <div className='flex p-5 font-bold'>
+            {/* <p>items left:{taskCount}</p> */}
+            <div className=''>
+            <button className='ml-4 hover:text-white' onClick={fetchTasks}>All</button>
+            <button className='ml-4 hover:text-white' onClick={handleActiveTask}>Active</button>
+            <button className='ml-4 hover:text-white' onClick={handleCompletedTask}>Completed</button>
+            </div>
+            <div>
+            <button className='ml-56 hover:text-white' onClick={handleDeleteCompleted}>Clear Completed</button>
+            </div>
+          </div>
+        </div>
+          <button onClick={handleLogout} >Logout</button><br />
+          <button onClick={()=>navigate('/password')}>Change Password</button><br />
+      </div>
     </div>
-    <button onClick={handleLogout} >Logout</button><br />
-    <button onClick={()=>navigate('/password')}>Change Password</button><br />
-    <button onClick={fetchTasks}>All</button><br />
-    <button onClick={handleActiveTask}>Active</button><br />
-    <button onClick={handleCompletedTask}>Completed</button><br />
-    <button onClick={handleDeleteCompleted}>Clear Completed</button>
-    </>
   )
 }
 
