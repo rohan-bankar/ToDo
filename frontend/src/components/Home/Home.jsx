@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {faCircleUser} from '@fortawesome/free-solid-svg-icons'
+import useTheme from '../../context/Theme'
+library.add(faCircleUser)
 
 function Home() {
   const [taskContent,setTaskContent] = useState('')
   const [tasks,setTasks] = useState([])
-  // const [taskCount,setTaskCount] = useState()
+  const [isMenuOpen,setMenuOpen] = useState(false)
+  const {themeMode} = useTheme()
   const navigate = useNavigate()
+
+  const toggleMenu = ()=>{
+    setMenuOpen(!isMenuOpen)
+  }
 
   const getAccessToken = ()=>{
     return localStorage.getItem('accessToken');
@@ -24,7 +34,11 @@ function Home() {
         },
         withCredentials:true
       })
-      setTasks(response.data.data)
+      if(response.data && response.data.data){
+        setTasks(response.data.data)
+      }else{
+        console.log("Empty response of missing data");
+      }
       // console.log(response);
       // setTaskCount(response.data.message)
     } catch (error) {
@@ -153,58 +167,70 @@ function Home() {
     })
   }
 
+  const lightThemeColor = 'hsl(0,0%,100%)'
+  const darkThemeColor = 'hsl(235, 21%, 11%)' 
+  const lightBgImage = 'url("/desktop-dark.jpg")'
+  const darkBgImage = 'url("/desktop-light.jpg")'
+  const taskBg = 'hsl(235, 24%, 19%)'
+
+  const backgroundColor = themeMode === 'dark' ? lightThemeColor : darkThemeColor
+  const backgroundImage = themeMode === 'light' ? lightBgImage : darkBgImage
+  const backgroundColorTask = themeMode === 'dark' ? lightThemeColor: taskBg
   return (
-    // <div style={{backgroundImage:"url(/icon-cross.svg)"}}>
-    <div>
-      <div className='w-1/2 my-20 mx-auto'>
-        <div className='my-10 relative'>
-          <h1 className='text-4xl font-bold text-white'>T O D O</h1>
-          <img className='absolute right-8 top-2' src="/icon-sun.svg" alt="" />
-          <img className='absolute right-8 top-2 hidden' src="/icon-moon.svg" alt="" />
-        </div>
-        <form onSubmit={handleAddTask}>
-          <div className='flex'>
-        <input className='w-10/12 h-14 text-2xl mr-3 text-white rounded' 
-        style={{backgroundColor:'hsl(235, 24%, 19%)'}}
-        type="text"
-        value={taskContent}
-        onChange={(e)=>setTaskContent(e.target.value)}
-        />
-        <button className='bg-white w-20 rounded-lg font-bold' type='submit'>Add</button><br />
-          </div>
-        </form>
-        <div style={{backgroundColor:'hsl(235, 24%, 19%)'}} className='rounded w-10/12 py-1 mt-5'>
-          <div>
-            {tasks.map((task)=>(
-              <div style={{backgroundColor:'hsl(235, 24%, 19%)'}} className='w-full h-12 text-2xl relative border-b border-black text-white' key={task._id}>
-                <span className='ml-2'
-                  style={{ 
-                    textDecoration: task.completed ? "line-through" : "none",
-                    cursor: "pointer"
-                  }}
-                  onClick={() => handelTaskCompleted(task._id)}
-                  >{ task.content}
-                </span>
-                <button className='absolute right-2 top-2' onClick={()=>handelDeleteTask(task._id)}><img src="/icon-cross.svg" alt="" /></button>
+    // <>
+      <div style={{backgroundColor}} className='h-screen'>
+        <div style={{ backgroundImage, backgroundRepeat: 'no-repeat'}}>
+            <div className='relative'>
+            <FontAwesomeIcon  className='absolute right-24 top-5 cursor-pointer' icon="fa-solid fa-circle-user" size="2xl" onClick={toggleMenu} />
+            <div style={{backgroundColor}} className={`absolute right-4 top-14 px-5 py-2 text-center text-white font-bold rounded ${isMenuOpen ? 'block' : 'hidden'} ${themeMode === 'dark' ? 'text-black' : 'text-white'}`}>
+              <button className='p-1' onClick={handleLogout} >Logout</button><br />
+              <button className='p-1' onClick={()=>navigate('/password')}>Change Password</button><br />
+            </div>
+            </div>
+          <div className='w-1/2 mx-auto py-20'>
+              <form onSubmit={handleAddTask}>
+                <div className='flex'>
+              <input className={`w-10/12 h-14 text-2xl font-thin mr-3 rounded ${themeMode === 'dark' ? 'text-black' : 'text-white'}`} 
+              style={{backgroundColor:backgroundColorTask}}
+              type="text"
+              value={taskContent}
+              onChange={(e)=>setTaskContent(e.target.value)}
+              />
+              <button  style={{backgroundColor:backgroundColorTask}} className={`${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'} text-gray-500  w-20 rounded-lg font-bold`} type='submit'>Add</button><br />
+                </div>
+              </form>
+              <div style={{backgroundColor:backgroundColorTask}} className='rounded w-10/12 py-1 mt-5 shadow-lg'>
+                <div>
+                  {tasks.map((task)=>(
+                    <div style={{backgroundColor:backgroundColorTask}} className={`w-full h-12 text-2xl font-thin relative border-b border-black ${themeMode === 'dark' ? 'text-black' : 'text-white'} `} key={task._id}>
+                      <span className='ml-5'
+                        style={{ 
+                          textDecoration: task.completed ? "line-through" : "none",
+                          cursor: "pointer"
+                        }}
+                        onClick={() => handelTaskCompleted(task._id)}
+                        >{ task.content}
+                      </span>
+                      <button className='absolute right-2 top-2' onClick={()=>handelDeleteTask(task._id)}><img src="/icon-cross.svg" alt="" /></button>
+                    </div>
+                  ))}
+                </div>
+                <div className='flex p-4 font-bold'>
+                    <div>
+                    <button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={fetchTasks}>All</button>
+                    <button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleActiveTask}>Active</button>
+                    <button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleCompletedTask}>Completed</button>
+                    </div>
+                    <div>
+                    <button className={`ml-56 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleDeleteCompleted}>Clear Completed</button>
+                    </div>
+                  </div>
               </div>
-            ))}
-          </div>
-          <div className='flex p-5 font-bold'>
-            {/* <p>items left:{taskCount}</p> */}
-            <div className=''>
-            <button className='ml-4 hover:text-white' onClick={fetchTasks}>All</button>
-            <button className='ml-4 hover:text-white' onClick={handleActiveTask}>Active</button>
-            <button className='ml-4 hover:text-white' onClick={handleCompletedTask}>Completed</button>
             </div>
-            <div>
-            <button className='ml-56 hover:text-white' onClick={handleDeleteCompleted}>Clear Completed</button>
-            </div>
-          </div>
+
         </div>
-          <button onClick={handleLogout} >Logout</button><br />
-          <button onClick={()=>navigate('/password')}>Change Password</button><br />
       </div>
-    </div>
+    // </> 
   )
 }
 

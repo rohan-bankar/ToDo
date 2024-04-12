@@ -6,9 +6,10 @@ import SignUp from './components/SignUp/SignUp.jsx'
 import Login from './components/Login/Login.jsx'
 import Home from './components/Home/Home.jsx'
 import Password from './components/Password/Password.jsx'
+import Layout from './Layout'
 
 const router = createBrowserRouter(createRoutesFromElements(
-  <Route>
+  <Route path='/' element={<Layout/>}>
     <Route path='/register' element={<SignUp/>}></Route>
     <Route path='/login' element={<Login/>}></Route>
     <Route path='/home' element={<Home/>}></Route>
