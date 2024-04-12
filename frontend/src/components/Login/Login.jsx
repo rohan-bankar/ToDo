@@ -88,7 +88,7 @@ function Login() {
                         <strong>Password<span className='text-red-600'> *</span></strong>
                     </label><br />
                     <input 
-                        type="text"
+                        type="password"
                         placeholder=' Enter Password'
                         name='password'
                         className='border-none w-full my-2 h-9 rounded text-black'
