@@ -36,8 +36,8 @@ function SignUp() {
     const backgroundColor = themeMode === 'dark' ? lightThemeColor : darkThemeColor
     const backgroundImage = themeMode === 'light' ? lightBgImage : darkBgImage
   return (
-    <div className='pt-10 h-screen text-white font-bold' style={{backgroundColor, backgroundImage, backgroundRepeat:'no-repeat'}}>
-        <div className='w-1/3 mx-auto p-5 bg-indigo-600 bg-opacity-30 rounded'>
+    <div className='pt-10 text-white font-bold' style={{backgroundColor, backgroundImage, backgroundRepeat:'no-repeat',height:'92.6vh'}}>
+        <div className='w-1/3 max-sm:w-10/12 mx-auto p-5 bg-indigo-600 bg-opacity-30 rounded'>
                 <form className='p-4' onSubmit={handleSubmit}>
                     <h1 className='text-center text-3xl'>Register</h1>
                     <div>

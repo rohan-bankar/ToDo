@@ -66,8 +66,8 @@ function Login() {
     const backgroundImage = themeMode === 'light' ? lightBgImage : darkBgImage
 
   return (
-    <div className='pt-28 h-screen text-white font-bold' style={{backgroundColor, backgroundImage, backgroundRepeat:'no-repeat'}}>
-        <div className='w-1/4 mx-auto p-5 bg-indigo-600 bg-opacity-30 rounded'>
+    <div className='pt-28 text-white font-bold' style={{backgroundColor, backgroundImage, backgroundRepeat:'no-repeat',height:'92.6vh'}}>
+        <div className='w-1/4 max-sm:w-10/12 mx-auto p-5 bg-indigo-600 bg-opacity-30 rounded'>
             <form onSubmit={handleSubmit} className='p-2'>
                 <h1 className='text-center text-3xl'>Login</h1>
                 <div>

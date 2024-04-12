@@ -178,28 +178,28 @@ function Home() {
   const backgroundColorTask = themeMode === 'dark' ? lightThemeColor: taskBg
   return (
     // <>
-      <div style={{backgroundColor}} className='h-screen'>
+      <div style={{backgroundColor,height:'92.6vh'}}>
         <div style={{ backgroundImage, backgroundRepeat: 'no-repeat'}}>
             <div className='relative'>
             <FontAwesomeIcon  className='absolute right-24 top-5 cursor-pointer' icon="fa-solid fa-circle-user" size="2xl" onClick={toggleMenu} />
-            <div style={{backgroundColor}} className={`absolute right-4 top-14 px-5 py-2 text-center text-white font-bold rounded ${isMenuOpen ? 'block' : 'hidden'} ${themeMode === 'dark' ? 'text-black' : 'text-white'}`}>
+            <div style={{backgroundColor}} className={`absolute right-4 top-14 px-5 py-2 text-center  font-bold rounded ${isMenuOpen ? 'block' : 'hidden'} ${themeMode === 'dark' ? 'text-black' : 'text-white'}`}>
               <button className='p-1' onClick={handleLogout} >Logout</button><br />
               <button className='p-1' onClick={()=>navigate('/password')}>Change Password</button><br />
             </div>
             </div>
-          <div className='w-1/2 mx-auto py-20'>
+          <div className='w-1/2 max-sm:w-11/12 mx-auto pt-36'>
               <form onSubmit={handleAddTask}>
                 <div className='flex'>
               <input className={`w-10/12 h-14 text-2xl font-thin mr-3 rounded ${themeMode === 'dark' ? 'text-black' : 'text-white'}`} 
-              style={{backgroundColor:backgroundColorTask}}
+              style={{backgroundColor:backgroundColorTask,opacity:'.5'}}
               type="text"
               value={taskContent}
               onChange={(e)=>setTaskContent(e.target.value)}
               />
-              <button  style={{backgroundColor:backgroundColorTask}} className={`${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'} text-gray-500  w-20 rounded-lg font-bold`} type='submit'>Add</button><br />
+              <button  style={{backgroundColor:backgroundColorTask,opacity:'.5'}} className={`${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'} text-gray-500  w-20 rounded-lg font-bold`} type='submit'>Add</button><br />
                 </div>
               </form>
-              <div style={{backgroundColor:backgroundColorTask}} className='rounded w-10/12 py-1 mt-5 shadow-lg'>
+              <div style={{backgroundColor:backgroundColorTask}} className='rounded w-10/12 max-sm:w-11/12 py-1 mt-10 shadow-lg'>
                 <div>
                   {tasks.map((task)=>(
                     <div style={{backgroundColor:backgroundColorTask}} className={`w-full h-12 text-2xl font-thin relative border-b border-black ${themeMode === 'dark' ? 'text-black' : 'text-white'} `} key={task._id}>
@@ -215,16 +215,20 @@ function Home() {
                     </div>
                   ))}
                 </div>
-                <div className='flex p-4 font-bold'>
+                <div className='flex  p-4 font-bold'>
                     <div>
-                    <button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={fetchTasks}>All</button>
-                    <button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleActiveTask}>Active</button>
-                    <button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleCompletedTask}>Completed</button>
-                    </div>
+                      <button><button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={fetchTasks}>All</button></button>
+                      </div>
                     <div>
-                    <button className={`ml-56 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleDeleteCompleted}>Clear Completed</button>
+                      <button><button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleActiveTask}>Active</button></button>
+                      </div>
+                    <div>
+                      <button><button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleCompletedTask}>Completed</button></button>
+                      </div>
+                    <div>
+                      <button><button className={`ml-56 max-sm:ml-0 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleDeleteCompleted}>Clear Completed</button></button>
                     </div>
-                  </div>
+                </div>
               </div>
             </div>
 
