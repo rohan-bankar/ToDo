@@ -37,7 +37,7 @@ try {
     messageDiv.textContent = message
   }
 
-  const lightThemeColor = 'rgb(224 231 255)'
+  const lightThemeColor = 'hsl(0,0%,100%)'
   const darkThemeColor = 'hsl(235, 21%, 11%)' 
   const lightBgImage = 'url("/desktop-dark.jpg")'
   const darkBgImage = 'url("/desktop-light.jpg")'
