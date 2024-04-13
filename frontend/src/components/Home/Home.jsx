@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import useTheme from '../../context/Theme'
-library.add(faCircleUser)
+library.add(faCircleUser,faRightFromBracket)
 
 function Home() {
   const [taskContent,setTaskContent] = useState('')
@@ -167,7 +168,7 @@ function Home() {
     })
   }
 
-  const lightThemeColor = 'hsl(0,0%,100%)'
+  const lightThemeColor = 'rgb(224 231 255)'
   const darkThemeColor = 'hsl(235, 21%, 11%)' 
   const lightBgImage = 'url("/desktop-dark.jpg")'
   const darkBgImage = 'url("/desktop-light.jpg")'
@@ -183,8 +184,8 @@ function Home() {
             <div className='relative'>
             <FontAwesomeIcon  className='absolute right-24 top-5 cursor-pointer' icon="fa-solid fa-circle-user" size="2xl" onClick={toggleMenu} />
             <div style={{backgroundColor}} className={`absolute right-4 top-14 px-5 py-2 text-center  font-bold rounded ${isMenuOpen ? 'block' : 'hidden'} ${themeMode === 'dark' ? 'text-black' : 'text-white'}`}>
-              <button className='p-1' onClick={handleLogout} >Logout</button><br />
               <button className='p-1' onClick={()=>navigate('/password')}>Change Password</button><br />
+              <button className='p-1' onClick={handleLogout}><FontAwesomeIcon icon="fa-solid fa-right-from-bracket" /> Logout</button><br />
             </div>
             </div>
           <div className='w-1/2 max-sm:w-11/12 mx-auto pt-36'>
