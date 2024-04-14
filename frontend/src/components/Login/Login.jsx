@@ -43,8 +43,8 @@ function Login() {
             localStorage.clear()
             localStorage.setItem('accessToken',accessToken);
             localStorage.setItem('refreshToken',refreshToken);
-            console.log(accessToken);
-            console.log(refreshToken);
+            // console.log(accessToken);
+            // console.log(refreshToken);
             navigation('/home')
         })
         .catch(error => {console.log(error)
@@ -95,7 +95,7 @@ function Login() {
                         onChange={(e)=> setPassword(e.target.value)}
                     />
                 </div>
-                <button className='border-none rounded bg-indigo-600 w-full my-2 h-10'>login</button>
+                <button type='submit' className='border-none rounded bg-indigo-600 w-full my-2 h-10'>login</button>
                 <p>Don't Have an Account</p>
                 <button onClick={()=>navigation('/register')} className='border-none rounded bg-indigo-600 w-full my-2 h-10'>SignUp</button>
                 <div className='text-red-600' id='message'></div>

@@ -35,7 +35,7 @@ function Home() {
         },
         withCredentials:true
       })
-      if(response.data && response.data.data){
+      if(response && response.data && response.data.data){
         setTasks(response.data.data)
       }else{
         console.log("Empty response of missing data");
