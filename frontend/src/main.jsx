@@ -10,7 +10,7 @@ import Layout from './Layout'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout/>}>
-    <Route path='/register' element={<SignUp/>}></Route>
+    <Route path='/' element={<SignUp/>}></Route>
     <Route path='/login' element={<Login/>}></Route>
     <Route path='/home' element={<Home/>}></Route>
     <Route path='/password' element={<Password/>}></Route>

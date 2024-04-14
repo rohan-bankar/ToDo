@@ -15,7 +15,7 @@ try {
     throw new error('Access token not found')
   }
     const response = await axios.post(
-      'http://localhost:3000/api/v1/users/change-password',{oldPassword,newPassword},
+      '/api/v1/users/change-password',{oldPassword,newPassword},
       {
         headers:{
           Authorization:`Bearer ${accessToken}`,

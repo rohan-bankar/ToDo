@@ -29,7 +29,7 @@ function Home() {
   const fetchTasks = async ()=>{
     try {
       const accessToken = getAccessToken()
-      const response = await axios.get('http://localhost:3000/api/v1/tasks/all-task',{
+      const response = await axios.get('/api/v1/tasks/all-task',{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -51,7 +51,7 @@ function Home() {
     e.preventDefault();
     try {
       const accessToken = getAccessToken()
-      const response = await axios.post('http://localhost:3000/api/v1/tasks/user-task',
+      const response = await axios.post('/api/v1/tasks/user-task',
         {content:taskContent},
         {
           headers:{
@@ -70,7 +70,7 @@ function Home() {
   const handelDeleteTask = async (taskId)=>{
     try {
       const accessToken = getAccessToken();
-      const response = await axios.delete(`http://localhost:3000/api/v1/tasks/delete-task/${taskId}`,{
+      const response = await axios.delete(`/api/v1/tasks/delete-task/${taskId}`,{
         headers:{
           Authorization:`Bearer ${accessToken}`
         }
@@ -85,7 +85,7 @@ function Home() {
   const handelTaskCompleted = async(taskId)=>{
     try {
       const accessToken = getAccessToken()
-      const response = await axios.patch(`http://localhost:3000/api/v1/tasks/c/${taskId}`,{},{
+      const response = await axios.patch(`/api/v1/tasks/c/${taskId}`,{},{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -107,7 +107,7 @@ function Home() {
   const handleActiveTask = async()=>{
     try {
       const accessToken = getAccessToken()
-      const response = await axios.get('http://localhost:3000/api/v1/tasks/incomplete-task',{
+      const response = await axios.get('/api/v1/tasks/incomplete-task',{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -122,7 +122,7 @@ function Home() {
   const handleCompletedTask = async()=>{
     try {
       const accessToken = getAccessToken()
-      const response = await axios.get('http://localhost:3000/api/v1/tasks/complete-task',{
+      const response = await axios.get('/api/v1/tasks/complete-task',{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -137,7 +137,7 @@ function Home() {
   const handleDeleteCompleted = async()=>{
     try {
       const accessToken = getAccessToken();
-      await axios.delete('http://localhost:3000/api/v1/tasks/delete-completed',{
+      await axios.delete('/api/v1/tasks/delete-completed',{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -152,7 +152,7 @@ function Home() {
     e.preventDefault()
     const accessToken = getAccessToken();
     console.log(accessToken);
-    axios.post('http://localhost:3000/api/v1/users/logout', {}, {
+    axios.post('/api/v1/users/logout', {}, {
     headers: {
         Authorization: `Bearer ${accessToken}`
     }
@@ -184,8 +184,12 @@ function Home() {
             <div className='relative'>
             <FontAwesomeIcon  className='absolute right-24 top-5 cursor-pointer' icon="fa-solid fa-circle-user" size="2xl" onClick={toggleMenu} />
             <div style={{backgroundColor}} className={`absolute right-4 top-14 px-5 py-2 text-center  font-bold rounded ${isMenuOpen ? 'block' : 'hidden'} ${themeMode === 'dark' ? 'text-black' : 'text-white'}`}>
-              <button className='p-1' onClick={()=>navigate('/password')}>Change Password</button><br />
-              <button className='p-1' onClick={handleLogout}><FontAwesomeIcon icon="fa-solid fa-right-from-bracket" /> Logout</button><br />
+              <div>
+              <button className='p-1' onClick={()=>navigate('/password')}>Change Password</button>
+              </div>
+              <div>
+              <button className='p-1' onClick={handleLogout}><FontAwesomeIcon icon="fa-solid fa-right-from-bracket" /> Logout</button>
+              </div>
             </div>
             </div>
           <div className='w-1/2 max-sm:w-11/12 mx-auto pt-36'>
@@ -219,13 +223,13 @@ function Home() {
                 <div className='flex  p-4 font-bold'>
                     <div>
                       <button><button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={fetchTasks}>All</button></button>
-                      </div>
+                    </div>
                     <div>
                       <button><button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleActiveTask}>Active</button></button>
-                      </div>
+                    </div>
                     <div>
                       <button><button className={`ml-4 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleCompletedTask}>Completed</button></button>
-                      </div>
+                    </div>
                     <div>
                       <button><button className={`ml-56 max-sm:ml-0 text-gray-500 ${themeMode === 'light' ? 'hover:text-white':'hover:text-sky-400'}`} onClick={handleDeleteCompleted}>Clear Completed</button></button>
                     </div>
