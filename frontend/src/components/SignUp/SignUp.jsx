@@ -13,7 +13,7 @@ function SignUp() {
 
     const handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('/api/v1/users/register',{username,email,password})
+        axios.post('https://todo-vsfb.onrender.com/api/v1/users/register',{username,email,password})
         .then(result => {console.log(result)
             showMessage(result.data.message)
         })
