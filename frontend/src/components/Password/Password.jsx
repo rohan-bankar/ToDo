@@ -15,7 +15,7 @@ try {
     throw new error('Access token not found')
   }
     const response = await axios.post(
-      '/api/v1/users/change-password',{oldPassword,newPassword},
+      'https://todo-vsfb.onrender.com/api/v1/users/change-password',{oldPassword,newPassword},
       {
         headers:{
           Authorization:`Bearer ${accessToken}`,

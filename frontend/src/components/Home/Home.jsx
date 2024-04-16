@@ -29,7 +29,7 @@ function Home() {
   const fetchTasks = async ()=>{
     try {
       const accessToken = getAccessToken()
-      const response = await axios.get('/api/v1/tasks/all-task',{
+      const response = await axios.get('https://todo-vsfb.onrender.com/api/v1/tasks/all-task',{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -51,7 +51,7 @@ function Home() {
     e.preventDefault();
     try {
       const accessToken = getAccessToken()
-      const response = await axios.post('/api/v1/tasks/user-task',
+      const response = await axios.post('https://todo-vsfb.onrender.com/api/v1/tasks/user-task',
         {content:taskContent},
         {
           headers:{
@@ -70,7 +70,7 @@ function Home() {
   const handelDeleteTask = async (taskId)=>{
     try {
       const accessToken = getAccessToken();
-      const response = await axios.delete(`/api/v1/tasks/delete-task/${taskId}`,{
+      const response = await axios.delete(`https://todo-vsfb.onrender.com/api/v1/tasks/delete-task/${taskId}`,{
         headers:{
           Authorization:`Bearer ${accessToken}`
         }
@@ -85,7 +85,7 @@ function Home() {
   const handelTaskCompleted = async(taskId)=>{
     try {
       const accessToken = getAccessToken()
-      const response = await axios.patch(`/api/v1/tasks/c/${taskId}`,{},{
+      const response = await axios.patch(`https://todo-vsfb.onrender.com/api/v1/tasks/c/${taskId}`,{},{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -107,7 +107,7 @@ function Home() {
   const handleActiveTask = async()=>{
     try {
       const accessToken = getAccessToken()
-      const response = await axios.get('/api/v1/tasks/incomplete-task',{
+      const response = await axios.get('https://todo-vsfb.onrender.com/api/v1/tasks/incomplete-task',{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -122,7 +122,7 @@ function Home() {
   const handleCompletedTask = async()=>{
     try {
       const accessToken = getAccessToken()
-      const response = await axios.get('/api/v1/tasks/complete-task',{
+      const response = await axios.get('https://todo-vsfb.onrender.com/api/v1/tasks/complete-task',{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -137,7 +137,7 @@ function Home() {
   const handleDeleteCompleted = async()=>{
     try {
       const accessToken = getAccessToken();
-      await axios.delete('/api/v1/tasks/delete-completed',{
+      await axios.delete('https://todo-vsfb.onrender.com/api/v1/tasks/delete-completed',{
         headers:{
           Authorization:`Bearer ${accessToken}`
         },
@@ -152,7 +152,7 @@ function Home() {
     e.preventDefault()
     const accessToken = getAccessToken();
     console.log(accessToken);
-    axios.post('/api/v1/users/logout', {}, {
+    axios.post('https://todo-vsfb.onrender.com/api/v1/users/logout', {}, {
     headers: {
         Authorization: `Bearer ${accessToken}`
     }
